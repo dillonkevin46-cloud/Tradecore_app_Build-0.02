@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card card-custom p-4">
+            <h3>Add Category</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="fw-bold">Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold">Icon Class (FontAwesome)</label>
+                    {{ form.icon }}
+                    <small class="text-muted">e.g. <code>fas fa-server</code>, <code>fas fa-print</code>, <code>fas fa-wifi</code></small>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

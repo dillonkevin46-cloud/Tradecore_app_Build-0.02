@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-clipboard-check text-success"></i> Morning Check</h2>
+    <div>
+        {% if request.user.is_staff %}
+            <a href="{% url 'checklist_setup' %}" class="btn btn-outline-secondary me-2"><i class="fas fa-cog"></i> Manage List</a>
+        {% endif %}
+        <span class="text-muted ms-2">{{ request.user.first_name }} - {% now "jS F Y" %}</span>
+    </div>
+</div>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="card card-custom p-0 overflow-hidden mb-4">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th style="width: 40%;">Checklist Item</th>
+                            <th style="width: 30%;">Status</th>
+                            <th style="width: 30%;">Comments / Error Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td class="align-middle fw-bold">{{ item.name }}</td>
+                            <td class="align-middle">
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" name="status_{{ item.id }}" id="pass_{{ item.id }}" value="PASS" checked>
+                                    <label class="btn btn-outline-success btn-sm" for="pass_{{ item.id }}">Pass</label>
+
+                                    <input type="radio" class="btn-check" name="status_{{ item.id }}" id="warn_{{ item.id }}" value="WARNING">
+                                    <label class="btn btn-outline-warning btn-sm" for="warn_{{ item.id }}">Warn</label>
+
+                                    <input type="radio" class="btn-check" name="status_{{ item.id }}" id="fail_{{ item.id }}" value="FAIL">
+                                    <label class="btn btn-outline-danger btn-sm" for="fail_{{ item.id }}">Fail</label>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="comment_{{ item.id }}" placeholder="Optional note...">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">General Notes / Handover</label>
+                <textarea name="general_notes" class="form-control" rows="3" placeholder="Anything else the team needs to know?"></textarea>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-paper-plane"></i> Submit Daily Report</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

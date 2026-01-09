@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <div class="card card-custom p-5 border-danger">
+            <h3 class="text-danger">Delete Checklist Item?</h3>
+            <p class="lead">Are you sure you want to delete <strong>"{{ item.name }}"</strong>?</p>
+            <p class="text-muted">This will remove it from future reports, but keep old history.</p>
+            
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <a href="{% url 'checklist_setup' %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

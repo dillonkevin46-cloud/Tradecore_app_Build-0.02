@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <div class="card card-custom p-5 border-danger">
+            <h3 class="text-danger">Remove Recipient?</h3>
+            <p>Stop sending reports to <strong>{{ recipient.email }}</strong>?</p>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes, Remove</button>
+                <a href="{% url 'recipient_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

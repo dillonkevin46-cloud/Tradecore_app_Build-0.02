@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Edit User: {{ user_obj.username }}</h5>
+            </div>
+            <a href="{% url 'user_password_reset' user_obj.id %}" class="btn btn-outline-warning">
+    <i class="fas fa-key"></i> Reset Password
+</a>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Username</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email Address</label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">System Access</h6>
+                            
+                            <div class="form-check form-switch mb-2">
+                                {{ form.is_active }}
+                                <label class="form-check-label">Active (Can Login)</label>
+                            </div>
+
+                            <div class="form-check form-switch mb-2">
+                                {{ form.is_staff }}
+                                <label class="form-check-label">Staff Status (Admin Panel)</label>
+                            </div>
+
+                            <div class="form-check form-switch mb-2">
+                                {{ form.is_superuser }}
+                                <label class="form-check-label text-danger">Superuser (Full Control)</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 border-start">
+                            <h6 class="text-muted mb-3">Assign Roles (Groups)</h6>
+                            <div class="bg-light p-3 rounded">
+                                {% for group in form.groups %}
+                                    <div class="form-check">
+                                        {{ group.tag }}
+                                        <label class="form-check-label">{{ group.choice_label }}</label>
+                                    </div>
+                                {% empty %}
+                                    <small class="text-muted">No groups defined. Create groups in Django Admin first.</small>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="{% url 'user_list' %}" class="btn btn-light">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="mb-0"><i class="fas fa-clipboard-check me-2"></i> Daily Morning Checks</h3>
+                        <small class="opacity-75">Tasks reset automatically every morning at midnight.</small>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-light text-primary fs-6">{{ items.count }} Tasks</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <form method="post" class="d-flex gap-2 mb-4">
+                    {% csrf_token %}
+                    <div class="flex-grow-1">
+                        {{ form.name }}
+                    </div>
+                    <button type="submit" name="add_task" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
+                </form>
+
+                <hr class="text-muted opacity-25 mb-4">
+
+                <div class="list-group list-group-flush">
+                    {% for task in items %}
+                    <a href="{% url 'checklist_toggle' task.id %}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between p-3">
+                        <span class="fs-5 {% if task.is_checked %}text-decoration-line-through text-muted{% endif %}">
+                            {{ task.name }}
+                        </span>
+                        
+                        {% if task.is_checked %}
+                            <i class="fas fa-check-square text-success fa-2x"></i>
+                        {% else %}
+                            <i class="far fa-square text-secondary fa-2x"></i>
+                        {% endif %}
+                    </a>
+                    {% empty %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="fas fa-clipboard-list fa-3x mb-3 opacity-25"></i>
+                        <h5>No tasks yet.</h5>
+                        <p>Add your first morning check above.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card-footer bg-light d-flex justify-content-between p-3">
+                <button class="btn btn-outline-secondary" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print List
+                </button>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="submit_report" class="btn btn-success fw-bold">
+                        <i class="fas fa-paper-plane me-2"></i> Submit Morning Report
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

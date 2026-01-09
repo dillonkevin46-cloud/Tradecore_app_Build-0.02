@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card card-custom p-4">
+            <h3>Add Email Recipient</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="fw-bold">Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold">Email</label>
+                    {{ form.email }}
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    {{ form.is_active }}
+                    <label class="form-check-label">Active</label>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+                <a href="{% url 'recipient_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card card-custom p-4">
+            <h3>{{ title }}</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="fw-bold">Device Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold">Category</label>
+                    {{ form.category }}
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold">Host (IP or DNS)</label>
+                    {{ form.host }}
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    {{ form.is_active }}
+                    <label class="form-check-label">Active Monitoring</label>
+                </div>
+                <button type="submit" class="btn btn-success">Save Device</button>
+                <a href="{% url 'monitor_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
